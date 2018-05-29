@@ -1,0 +1,230 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+#map{
+height:300px;
+width:100%
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+<h1>Air Pollution Map</h1>
+  <div id="map"></div>
+</div>
+  
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Know your city air pollution ?</h3>
+<p><select id="countryName" class="col-sm-8"></select></p>
+<p class="col-sm-12"></p>
+<p><select id="cityName" style="display:none" class="col-sm-8"><select></p>
+    </div>
+	
+	
+	
+    <div  class="col-sm-4">
+	 <table class="table">
+     <thead> <h3 class="col-sm-12">Pollution Data</h3></thead>
+       
+ <tbody>
+
+      <tr>
+        <td>City:</td>
+        <td><span id="city"></span></td>
+        
+      </tr>
+      <tr>
+        <td>Cordinates:</td>
+        <td><span id="cordinates"></span></td>
+        
+      </tr>
+	   <tr>
+        <td>Polluted Air:</td>
+        <td><span id="value"></span>µg/m³</td>
+        
+      </tr>
+	   <tr>	
+        <td>Parameter:</td>
+        <td>SO2</td></tr>
+		
+		<tr><span id="pollution_data" style="color:red"></tr>
+    </tbody>
+	
+	</table>
+    </div>
+    <div class="col-sm-4">
+      <h3>Reference</h3>        
+      <table class="table">
+    <thead>
+      <tr>
+        <th>AQI Category (Range)</th>
+        <th>Symbol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Good (0–40)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png"/></td>
+       
+      </tr>
+      <tr>
+        <td>Satisfactory (41–80)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/yellow-dot.png"></td>
+        
+      </tr>
+      <tr>
+        <td>Moderately polluted (81–380)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/orange-dot.png"></td>
+        
+      </tr>
+	   <tr>
+        <td>Poor (381–800)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png"</td>
+        
+      </tr>
+	   <tr>	
+        <td>Very poor (801–1600)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png"></td>
+        
+      </tr>
+	   <tr>
+        <td>Severe (1600+)</td>
+        <td><img src="http://maps.google.com/mapfiles/ms/icons/firedept.png"></td>
+        
+      </tr>
+    </tbody>
+  </table>
+  
+    </div>
+  </div>
+</div>
+
+
+<script>
+function initMap(){
+//map options
+var option = {
+            center: {lat: 24.5854, lng: 73.7125},
+            zoom: 12,
+		    radius: 50000,
+			strokeColor: "red",
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: "green",
+			fillOpacity: 0.3
+}
+
+	//new map
+	map = new google.maps.Map(document.getElementById('map'), option );
+
+/* 
+ // add variable marker
+ 
+ var marker =	new google.maps.Marker({
+ position:{lat:24.5854,lng:73.7125},
+ map:map
+ 
+ });
+	
+ //info window
+
+var infoWindow = new google.maps.InfoWindow({
+content:'<h1>hello ravi</h1>'
+});
+	
+marker.addListener('click',	function(){
+
+infoWindow.open(map,marker);
+ 
+ 
+} */
+getCountryName();
+
+}
+ 
+function addMarker(cordinates,value,location){
+
+var icon = getIcon(value);	
+ var marker =	new google.maps.Marker({
+ position:cordinates,
+ map:map,
+animation: google.maps.Animation.DROP,
+//icon:"http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+icon:icon
+ 
+ });
+ 
+ 
+ var infoWindow = new google.maps.InfoWindow({
+content:'<div style="color:blue"><h3>Polluted Air :'+value+' µg/m³</h3><h3>Location :'+location+'</h3></div>'
+});
+ marker.addListener('click',	function(value){
+infoWindow.open(map,marker);
+});
+ 
+  
+}
+function getIcon(value){
+
+if(value<=40) {
+var myCity = new google.maps.Circle({
+    radius: 50000,
+    strokeColor: "red",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "green",
+    fillOpacity: 0.3
+    
+    
+  });
+  myCity.setMap(map);
+
+ 
+return "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+}
+else if (value >40 && value <=80) {
+return "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+}
+if(value>80&&value<=380){
+return "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+}
+if(value > 380 && value<=800){
+return "http://maps.google.com/mapfiles/ms/icons/purple-dot.png";
+}
+if(value>800 && value<=1600){
+return "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+}
+if (value>1600 ){
+return "http://maps.google.com/mapfiles/ms/icons/firedept.png";
+}
+
+
+
+
+
+}
+
+
+
+</script>
+ </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA2EdV-zVFmFEacDrpsgpJn59M9f5JE5U&callback=initMap"
+    async defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="scripts.js"></script>
+</body>
+</html>
