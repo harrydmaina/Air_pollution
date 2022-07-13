@@ -5,6 +5,7 @@ function getCountryName(){
 $.ajax({
             type: "GET",
             url: 'https://api.openaq.org/v1/countries' ,
+			crossDomain: true,
             success: function(data)
             {
                 buildDropdownForCounty(
@@ -44,6 +45,7 @@ var countryName =$(this).val();
 $.ajax({
             type: "GET",
             url: 'https://api.openaq.org/v1/cities' ,
+			crossDomain: true,
 			data: {
 				country:countryName
 				
@@ -91,9 +93,10 @@ var location =$(this).val();
  $.ajax({
             type: "GET",
             url: 'https://maps.googleapis.com/maps/api/geocode/json' ,
+			crossDomain: true,
 			data:{
 				address:location,
-				key:'AIzaSyDA2EdV-zVFmFEacDrpsgpJn59M9f5JE5U'
+				key:'AIzaSyCEalCqmyTGWPbtElpdpoCbIHcWopnmMrk'
 				
 			},	
 			
