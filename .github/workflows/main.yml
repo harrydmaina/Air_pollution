@@ -1,31 +1,19 @@
 on:
-  push:
-    branches: ["*"]
-    types: [opened, synchronize, reopened]
   pull_request:
-    branches: [ "*" ]
-    types: [opened, synchronize, reopened]
-
-permissions: write-all
-
-env:
-  API_KEY: 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
-  GITHUB_TOKEN: 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
-  PULL_REQUEST_NUMBER: 20
-
+    types: [opened, synchronize]
 
 jobs:
-  openai-code-review:
+  hello_world_job:
     runs-on: ubuntu-latest
-    name: OpenAI code review
+    name: ChatGPT explain code
     steps:
-      - name: Golang setup
-        uses: actions/setup-go@v3
+      - name: ChatGTP explain code
+        uses: cirolini/chatgpt-github-actions@v1.3
         with:
-          go-version: 1.19.5
-
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: OpenAI code review
-        uses: crnvl96/openai-ci-golang@v1.0.4
+          openai_api_key: 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
+          github_token: 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
+          github_pr_id: 20
+          openai_engine: "text-davinci-002" #optional
+          openai_temperature: 0.5 #optional
+          openai_max_tokens: 2048 #optional
+          mode: file # file or patch 
