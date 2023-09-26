@@ -1,7 +1,4 @@
-on:
-  pull_request:
-    types: [opened, synchronize]
-
+on: push
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
