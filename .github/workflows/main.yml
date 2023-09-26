@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: ChatGPT explain code
+    steps:
+      - name: ChatGTP explain code
+        uses: cirolini/chatgpt-github-actions@v1.3
+        with:
+          openai_api_key: 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
+          github_token: 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
+          github_pr_id: 24
+          openai_engine: "text-davinci-002" #optional
+          openai_temperature: 0.5 #optional
+          openai_max_tokens: 2048 #optional
+          mode: file # file or patch 
