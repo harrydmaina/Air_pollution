@@ -1,0 +1,32 @@
+on:
+  push:
+    branches: ["*"]
+    types: [opened, synchronize, reopened]
+  pull_request:
+    branches: [ "*" ]
+    types: [opened, synchronize, reopened]
+
+permissions: write-all
+
+env:
+  API_KEY: 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
+  GITHUB_TOKEN: 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
+  PULL_REQUEST_NUMBER: 20
+  PULL_REQUEST_INFO: test
+
+
+jobs:
+  openai-code-review:
+    runs-on: ubuntu-latest
+    name: OpenAI code review
+    steps:
+      - name: Golang setup
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.5
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: OpenAI code review
+        uses: crnvl96/openai-ci-golang@v1.0.4
